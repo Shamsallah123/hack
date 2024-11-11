@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="ps">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کاروونکي معلومات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+        }
+        #userData {
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #e0e0e0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>ذخیره شوي معلومات</h2>
+    <div id="userData"></div>
+    <button onclick="enterCode()">د حذف کولو لپاره کد داخل کړئ</button>
 
+    <script>
+        // د معلوماتو ښودلو لپاره
+        function displayData() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.length === 0) {
+                document.getElementById('userData').innerHTML = "<p>هیڅ معلومات نشته</p>";
+                return;
+            }
+            let userHTML = '<ul>';
+
+            users.forEach((user, index) => {
+                userHTML += `<li>
+                    <strong>نوم:</strong> ${user.name} <br>
+                    <strong>ایمیل:</strong> ${user.email} <br>
+                    <strong>ټیلفون:</strong> ${user.phone} <br>
+                </li>`;
+            });
+
+            userHTML += '</ul>';
+            document.getElementById('userData').innerHTML = userHTML;
+        }
+
+        // حذف لپاره د کد داخلول
+        function enterCode() {
+            const code = prompt('د حذف کولو لپاره خپل کد داخل کړئ:');
+            if (code === '1234') {  // ستاسې ټاکلی کد دلته داخل کړئ
+                deleteData();
+            } else {
+                alert('ناسم کد!');
+            }
+        }
+
+        // د معلوماتو حذف کول
+        function deleteData() {
+            localStorage.removeItem('users');
+            alert('ټول معلومات حذف شول!');
+            displayData();  // د حذف وروسته پاڼه تازه کول
+        }
+
+        // په پیل کې د معلوماتو ښودل
+        displayData();
+    </script>
+</body>
+</html>
